@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Da Nang Community Radio — Audiovisual Radio from Central Vietnam</title>
+  <meta name="description" content="Da Nang Community Radio (DNCR) — Audiovisual radio platform from central Vietnam. Watch the latest broadcast, DNCR On The Air." />
+  <style>
+    :root {
+      --bg: #0e0e0d;
+      --surface: #161614;
+      --surface-hover: #1e1e1b;
+      --border: #2a2926;
+      --text: #f3f0e8;
+      --muted: #9c988e;
+      --accent: #e04f33;
+      --accent-soft: rgba(224, 79, 51, 0.14);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Top Bar */
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #0e0e0d;
+      display: grid;
+      place-items: center;
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .yt-link {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.5rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .yt-link:hover {
+      border-color: var(--text);
+      background: var(--surface);
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      max-width: 1120px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2.25rem 1.5rem 3.5rem;
+    }
+
+    .broadcast-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .meta-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .tag-latest {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .meta-date {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Video Stage */
+    .player-shell {
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    .player-shell iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .player-footer {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding-bottom: 2.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .player-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      max-width: 62ch;
+    }
+
+    .watch-btn {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.6rem 1rem;
+      background: var(--text);
+      color: var(--bg);
+      border-radius: 4px;
+      font-weight: 600;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .watch-btn:hover {
+      opacity: 0.88;
+    }
+
+    /* Archive Strip */
+    .archive-section {
+      margin-top: 2.25rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .archive-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1rem;
+      text-align: left;
+      cursor: pointer;
+      color: inherit;
+      font-family: inherit;
+      transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .archive-card:hover {
+      background: var(--surface-hover);
+      border-color: #45433e;
+      transform: translateY(-1px);
+    }
+
+    .archive-card.is-active {
+      border-color: var(--accent);
+      background: var(--surface-hover);
+    }
+
+    .card-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .card-title {
+      font-size: 0.92rem;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .card-action {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-inner a:hover {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">DNCR</div>
+        <div>
+          <div class="brand-title">Da Nang Community Radio</div>
+          <div class="brand-sub">CENTRAL VIETNAM · AUDIOVISUAL PLATFORM</div>
+        </div>
+      </div>
+      <nav class="header-links" aria-label="Channel links">
+        <a class="yt-link" href="https://www.youtube.com/@DaNangCommunityRadio" target="_blank" rel="noopener noreferrer">
+          YouTube @DaNangCommunityRadio ↗
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section aria-labelledby="episode-title">
+      <div class="broadcast-meta">
+        <div class="meta-left">
+          <span id="episode-badge" class="tag-latest">Latest Broadcast</span>
+          <span id="episode-date" class="meta-date">NOV 08, 2026</span>
+        </div>
+      </div>
+
+      <h1 id="episode-title">DNCR On The Air</h1>
+
+      <div class="player-shell">
+        <iframe
+          id="yt-player"
+          src="https://www.youtube.com/embed/75LBuMC3vFA?rel=0"
+          title="DNCR On The Air — Da Nang Community Radio"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="player-footer">
+        <p id="episode-desc" class="player-desc">
+          Latest transmission from Da Nang Community Radio — an independent audiovisual radio platform spotlighting DJs, selectors, and live electronic sessions from central Vietnam.
+        </p>
+        <a
+          id="episode-link"
+          class="watch-btn"
+          href="https://www.youtube.com/watch?v=75LBuMC3vFA"
+          target="_blank"
+          rel="noopener noreferrer">
+          Open on YouTube ↗
+        </a>
+      </div>
+    </section>
+
+    <section class="archive-section" aria-labelledby="archive-heading">
+      <div class="section-head">
+        <h2 id="archive-heading" class="section-title">Select Broadcast</h2>
+      </div>
+      <div class="archive-grid" id="archive-grid">
+        <button
+          type="button"
+          class="archive-card is-active"
+          data-id="75LBuMC3vFA"
+          data-title="DNCR On The Air"
+          data-date="NOV 08, 2026"
+          data-badge="Latest Broadcast"
+          data-desc="Latest transmission from Da Nang Community Radio — an independent audiovisual radio platform spotlighting DJs, selectors, and live electronic sessions from central Vietnam.">
+          <div>
+            <div class="card-date">NOV 08, 2026</div>
+            <div class="card-title">DNCR On The Air</div>
+          </div>
+          <div class="card-action">Now Playing</div>
+        </button>
+
+        <button
+          type="button"
+          class="archive-card"
+          data-id="y34n0-TM3gE"
+          data-title="Polana Chudes | DNCR x Femme Commune"
+          data-date="APR 28, 2026"
+          data-badge="Archive"
+          data-desc="Recorded in collaboration with Femme Commune — electro, EBM, and deconstructed electronic sounds.">
+          <div>
+            <div class="card-date">APR 28, 2026</div>
+            <div class="card-title">Polana Chudes | DNCR x Femme Commune</div>
+          </div>
+          <div class="card-action">Load Set →</div>
+        </button>
+
+        <button
+          type="button"
+          class="archive-card"
+          data-id="m7MrvnLzqTw"
+          data-title="Kate Murti | DNCR x Femme Commune"
+          data-date="APR 27, 2026"
+          data-badge="Archive"
+          data-desc="Deep house and tech house filmed live at Halcyon Beach Club, Hội An.">
+          <div>
+            <div class="card-date">APR 27, 2026</div>
+            <div class="card-title">Kate Murti | DNCR x Femme Commune</div>
+          </div>
+          <div class="card-action">Load Set →</div>
+        </button>
+
+        <button
+          type="button"
+          class="archive-card"
+          data-id="KgzWCukTsoE"
+          data-title="Jack Malipan | DNCR x Chăm Chỉ x Rumor"
+          data-date="JAN 27, 2026"
+          data-badge="Archive"
+          data-desc="Funky house and disco tech recorded riverside at Chăm Chỉ in Hội An with Rumor Events.">
+          <div>
+            <div class="card-date">JAN 27, 2026</div>
+            <div class="card-title">Jack Malipan | DNCR x Chăm Chỉ x Rumor</div>
+          </div>
+          <div class="card-action">Load Set →</div>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>DA NANG COMMUNITY RADIO · CENTRAL VIETNAM</span>
+      <a href="https://www.youtube.com/@DaNangCommunityRadio" target="_blank" rel="noopener noreferrer">
+        youtube.com/@DaNangCommunityRadio
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    const cards = document.querySelectorAll('.archive-card');
+    const player = document.getElementById('yt-player');
+    const titleEl = document.getElementById('episode-title');
+    const dateEl = document.getElementById('episode-date');
+    const badgeEl = document.getElementById('episode-badge');
+    const descEl = document.getElementById('episode-desc');
+    const linkEl = document.getElementById('episode-link');
+
+    let currentVideoId = '75LBuMC3vFA';
+    let userPickedArchive = false;
+
+    function loadVideo({ id, title, date, badge, desc }) {
+      if (currentVideoId !== id) {
+        player.src = `https://www.youtube.com/embed/${id}?rel=0`;
+        currentVideoId = id;
+      }
+      player.title = `${title} — Da Nang Community Radio`;
+      titleEl.textContent = title;
+      dateEl.textContent = date || '';
+      badgeEl.textContent = badge;
+      if (desc) descEl.textContent = desc;
+      linkEl.href = `https://www.youtube.com/watch?v=${id}`;
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        userPickedArchive = true;
+        loadVideo(card.dataset);
+
+        cards.forEach((c) => {
+          c.classList.remove('is-active');
+          c.querySelector('.card-action').textContent = 'Load Set →';
+        });
+        card.classList.add('is-active');
+        card.querySelector('.card-action').textContent = 'Now Playing';
+      });
+    });
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return '';
+      return d.toLocaleDateString('en-US', {
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric',
+      }).toUpperCase();
+    }
+
+    async function checkStreamStatus() {
+      try {
+        const res = await fetch('/api/status', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data || !data.videoId) return;
+
+        // Always switch immediately when a livestream starts; otherwise only update if user hasn't picked an archive set
+        if (data.live) {
+          userPickedArchive = false;
+          loadVideo({
+            id: data.videoId,
+            title: data.title || 'DNCR Live',
+            date: 'STREAMING NOW',
+            badge: '● Live Now',
+            desc: 'Live broadcast from Da Nang Community Radio in central Vietnam.',
+          });
+        } else if (!userPickedArchive) {
+          loadVideo({
+            id: data.videoId,
+            title: data.title || 'DNCR On The Air',
+            date: formatDate(data.published) || 'NOV 08, 2026',
+            badge: 'Latest Broadcast',
+            desc: 'Latest transmission from Da Nang Community Radio — an independent audiovisual radio platform spotlighting DJs, selectors, and live electronic sessions from central Vietnam.',
+          });
+        }
+      } catch (_) {
+        // Ignore errors (e.g. when previewing locally without Cloudflare Pages)
+      }
+    }
+
+    checkStreamStatus();
+    setInterval(checkStreamStatus, 60000);
+  </script>
+</body>
+</html>
