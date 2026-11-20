@@ -41,10 +41,23 @@
       text-decoration: none;
     }
 
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
     /* Top Bar */
     .site-header {
       border-bottom: 1px solid var(--border);
       padding: 1rem 1.5rem;
+      background-color: rgba(14, 14, 13, 0.92);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
 
     .header-inner {
@@ -62,3 +75,880 @@
       align-items: center;
       gap: 0.75rem;
     }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem 0.55rem;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .brand-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-location {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .status-indicator.is-live {
+      border-color: var(--accent);
+      background-color: var(--accent-soft);
+      color: var(--text);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .status-indicator.is-live .status-dot {
+      background-color: var(--accent);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    .channel-link {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.35rem 0.65rem;
+      border: 1px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .channel-link:hover {
+      color: var(--text);
+      border-color: var(--border);
+      background-color: var(--surface);
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1120px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      flex: 1;
+    }
+
+    /* Player Section */
+    .broadcast-section {
+      margin-bottom: 3.25rem;
+    }
+
+    .player-shell {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: #070706;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .player-shell iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .broadcast-info {
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .broadcast-copy {
+      flex: 1 1 560px;
+      min-width: 0;
+    }
+
+    .broadcast-kicker {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .broadcast-kicker .live-tag {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .broadcast-title {
+      font-size: clamp(1.35rem, 2.5vw, 1.95rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 0.65rem;
+    }
+
+    .broadcast-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 68ch;
+      line-height: 1.6;
+    }
+
+    .broadcast-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding-top: 0.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 0.95rem;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--surface-hover);
+      border-color: #3d3b36;
+    }
+
+    .btn-accent {
+      border-color: var(--accent);
+      background-color: var(--accent-soft);
+    }
+
+    .btn-accent:hover {
+      background-color: rgba(224, 79, 51, 0.24);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Archive Filmstrip Section */
+    .archive-section {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .section-header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .section-note {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .reel-toggle {
+      padding: 0.3rem 0.65rem;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .reel-toggle:hover {
+      color: var(--text);
+      border-color: #3d3b36;
+      background-color: var(--surface-hover);
+    }
+
+    .filmstrip-viewport {
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background-color: #0b0b0a;
+      padding: 1.15rem 0;
+    }
+
+    /* Subtle filmstrip sprocket rails */
+    .filmstrip-viewport::before,
+    .filmstrip-viewport::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background-image: repeating-linear-gradient(
+        to right,
+        transparent 0,
+        transparent 10px,
+        rgba(243, 240, 232, 0.14) 10px,
+        rgba(243, 240, 232, 0.14) 20px
+      );
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .filmstrip-viewport::before {
+      top: 4px;
+    }
+
+    .filmstrip-viewport::after {
+      bottom: 4px;
+    }
+
+    .filmstrip-fade-left,
+    .filmstrip-fade-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 56px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .filmstrip-fade-left {
+      left: 0;
+      background: linear-gradient(to right, var(--bg), transparent);
+    }
+
+    .filmstrip-fade-right {
+      right: 0;
+      background: linear-gradient(to left, var(--bg), transparent);
+    }
+
+    .filmstrip-track {
+      display: flex;
+      gap: 1.1rem;
+      width: max-content;
+      padding: 0.35rem 0;
+      will-change: transform;
+      animation: filmstrip-scroll var(--reel-duration, 48s) linear infinite;
+    }
+
+    .filmstrip-viewport:hover .filmstrip-track,
+    .filmstrip-viewport:focus-within .filmstrip-track,
+    .filmstrip-viewport.is-paused .filmstrip-track {
+      animation-play-state: paused;
+    }
+
+    .filmstrip-track.is-static {
+      animation: none;
+      width: 100%;
+      padding: 0.35rem 1rem;
+    }
+
+    @keyframes filmstrip-scroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .archive-card {
+      flex: 0 0 280px;
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .archive-card:hover {
+      background-color: var(--surface-hover);
+      border-color: #3d3b36;
+      transform: translateY(-2px);
+    }
+
+    .archive-card.is-active {
+      border-color: var(--accent);
+    }
+
+    .archive-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: #0b0b0a;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .archive-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .archive-card:hover .archive-thumb img {
+      transform: scale(1.03);
+    }
+
+    .archive-playing-badge {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      padding: 0.2rem 0.45rem;
+      background-color: rgba(14, 14, 13, 0.88);
+      border: 1px solid var(--accent);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      display: none;
+    }
+
+    .archive-card.is-active .archive-playing-badge {
+      display: inline-block;
+    }
+
+    .archive-body {
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+    }
+
+    .archive-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .archive-card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .archive-card-desc {
+      font-size: 0.8rem;
+      line-height: 1.45;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-top: auto;
+    }
+
+    .archive-empty {
+      width: 100%;
+      padding: 1.5rem;
+      border: 1px dashed var(--border);
+      background-color: var(--surface);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .filmstrip-viewport {
+        overflow-x: auto;
+      }
+
+      .filmstrip-track {
+        animation: none;
+      }
+
+      .filmstrip-fade-left,
+      .filmstrip-fade-right {
+        display: none;
+      }
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .footer-inner a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 560px) {
+      .main-content {
+        padding: 1.25rem 1rem 3rem;
+      }
+
+      .site-header {
+        padding: 0.85rem 1rem;
+      }
+
+      .archive-card {
+        flex: 0 0 240px;
+        width: 240px;
+      }
+
+      .filmstrip-fade-left,
+      .filmstrip-fade-right {
+        width: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">DNCR</span>
+        <span class="brand-text">
+          <span class="brand-name">Da Nang Community Radio</span>
+          <span class="brand-location">Central Vietnam</span>
+        </span>
+      </a>
+
+      <div class="header-meta">
+        <div id="status-indicator" class="status-indicator" aria-live="polite">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="status-label">Checking Signal</span>
+        </div>
+        <a
+          class="channel-link"
+          href="https://www.youtube.com/@DaNangCommunityRadio"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          YouTube ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="broadcast-section" aria-label="Broadcast Player">
+      <div class="player-shell">
+        <iframe
+          id="player-frame"
+          src="https://www.youtube-nocookie.com/embed/75LBuMC3vFA?rel=0&modestbranding=1"
+          title="Da Nang Community Radio Broadcast"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div class="broadcast-info">
+        <div class="broadcast-copy">
+          <div class="broadcast-kicker">
+            <span id="broadcast-mode">Latest Transmission</span>
+            <span id="broadcast-date"></span>
+          </div>
+          <h1 id="broadcast-title" class="broadcast-title">DNCR On The Air</h1>
+          <p id="broadcast-desc" class="broadcast-desc">
+            Latest transmission from Da Nang Community Radio — an independent audiovisual radio platform spotlighting DJs, selectors, and live electronic sessions from central Vietnam.
+          </p>
+        </div>
+
+        <div class="broadcast-actions">
+          <button id="return-live-btn" class="btn btn-accent hidden" type="button">
+            ● Return to Live
+          </button>
+          <a
+            id="watch-youtube-link"
+            class="btn"
+            href="https://www.youtube.com/watch?v=75LBuMC3vFA"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Watch on YouTube ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="archive-section" aria-labelledby="archive-heading">
+      <div class="section-header">
+        <h2 id="archive-heading" class="section-title">Recent Transmissions</h2>
+        <div class="section-header-right">
+          <span id="archive-note" class="section-note">Loading archive…</span>
+          <button id="reel-toggle" class="reel-toggle hidden" type="button" aria-pressed="false">
+            Pause Reel
+          </button>
+        </div>
+      </div>
+      <div id="filmstrip-viewport" class="filmstrip-viewport">
+        <div class="filmstrip-fade-left" aria-hidden="true"></div>
+        <div id="filmstrip-track" class="filmstrip-track is-static"></div>
+        <div class="filmstrip-fade-right" aria-hidden="true"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>DA NANG COMMUNITY RADIO — AUDIOVISUAL RADIO FROM CENTRAL VIETNAM</span>
+      <a href="https://www.youtube.com/@DaNangCommunityRadio" target="_blank" rel="noopener noreferrer">
+        @DaNangCommunityRadio
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const FALLBACK = {
+        live: false,
+        videoId: "75LBuMC3vFA",
+        title: "DNCR On The Air",
+        published: null,
+        description:
+          "Latest transmission from Da Nang Community Radio — an independent audiovisual radio platform spotlighting DJs, selectors, and live electronic sessions from central Vietnam.",
+        archive: [],
+      };
+
+      const ENDPOINTS = ["/api/status", "/status"];
+      const POLL_INTERVAL_MS = 60000;
+      const MAX_FILMSTRIP_ITEMS = 10;
+
+      const el = {
+        statusIndicator: document.getElementById("status-indicator"),
+        statusLabel: document.getElementById("status-label"),
+        playerFrame: document.getElementById("player-frame"),
+        broadcastMode: document.getElementById("broadcast-mode"),
+        broadcastDate: document.getElementById("broadcast-date"),
+        broadcastTitle: document.getElementById("broadcast-title"),
+        broadcastDesc: document.getElementById("broadcast-desc"),
+        watchLink: document.getElementById("watch-youtube-link"),
+        returnLiveBtn: document.getElementById("return-live-btn"),
+        archiveNote: document.getElementById("archive-note"),
+        reelToggle: document.getElementById("reel-toggle"),
+        filmstripViewport: document.getElementById("filmstrip-viewport"),
+        filmstripTrack: document.getElementById("filmstrip-track"),
+      };
+
+      let latestStatus = FALLBACK;
+      let activeVideoId = FALLBACK.videoId;
+      let userSelectedArchive = false;
+      let lastArchiveKey = null;
+      let isReelPaused = false;
+
+      function formatDate(iso) {
+        if (!iso) return "";
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return "";
+        return d.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      function setPlayerVideo(videoId, { autoplay = false } = {}) {
+        if (!videoId) return;
+        const params = new URLSearchParams({
+          rel: "0",
+          modestbranding: "1",
+        });
+        if (autoplay) params.set("autoplay", "1");
+
+        const nextSrc = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
+        if (el.playerFrame.getAttribute("src") !== nextSrc) {
+          el.playerFrame.setAttribute("src", nextSrc);
+        }
+        el.watchLink.setAttribute("href", `https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`);
+        activeVideoId = videoId;
+        updateActiveArchiveCard();
+      }
+
+      function renderBroadcast(item, { isLive = false, autoplay = false } = {}) {
+        el.broadcastTitle.textContent = item.title || FALLBACK.title;
+        el.broadcastDesc.textContent = item.description || FALLBACK.description;
+
+        if (isLive) {
+          el.broadcastMode.textContent = "● Live Now";
+          el.broadcastMode.classList.add("live-tag");
+          el.broadcastDate.textContent = "Broadcasting from Da Nang";
+        } else {
+          el.broadcastMode.textContent = userSelectedArchive ? "Archive Transmission" : "Latest Transmission";
+          el.broadcastMode.classList.remove("live-tag");
+          el.broadcastDate.textContent = formatDate(item.published);
+        }
+
+        el.returnLiveBtn.classList.toggle("hidden", !(latestStatus.live && userSelectedArchive));
+        setPlayerVideo(item.videoId || FALLBACK.videoId, { autoplay });
+      }
+
+      function renderHeaderStatus(data) {
+        if (data.live) {
+          el.statusIndicator.classList.add("is-live");
+          el.statusLabel.textContent = "On Air";
+        } else {
+          el.statusIndicator.classList.remove("is-live");
+          el.statusLabel.textContent = "Off Air · Archive";
+        }
+      }
+
+      function updateActiveArchiveCard() {
+        const cards = el.filmstripTrack.querySelectorAll(".archive-card");
+        cards.forEach((card) => {
+          card.classList.toggle("is-active", card.dataset.videoId === activeVideoId);
+        });
+      }
+
+      function createArchiveCard(item, { isClone = false } = {}) {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "archive-card";
+        card.dataset.videoId = item.videoId;
+        if (item.videoId === activeVideoId) {
+          card.classList.add("is-active");
+        }
+        if (isClone) {
+          card.setAttribute("aria-hidden", "true");
+          card.tabIndex = -1;
+        }
+
+        const thumb = document.createElement("div");
+        thumb.className = "archive-thumb";
+
+        const img = document.createElement("img");
+        img.src = `https://i.ytimg.com/vi/${encodeURIComponent(item.videoId)}/hqdefault.jpg`;
+        img.alt = isClone ? "" : (item.title || "DNCR archive episode");
+        img.loading = "lazy";
+        thumb.appendChild(img);
+
+        const badge = document.createElement("span");
+        badge.className = "archive-playing-badge";
+        badge.textContent = "Playing";
+        thumb.appendChild(badge);
+
+        const body = document.createElement("div");
+        body.className = "archive-body";
+
+        const date = document.createElement("span");
+        date.className = "archive-date";
+        date.textContent = formatDate(item.published) || "Archive";
+        body.appendChild(date);
+
+        const title = document.createElement("span");
+        title.className = "archive-card-title";
+        title.textContent = item.title || FALLBACK.title;
+        body.appendChild(title);
+
+        const desc = document.createElement("span");
+        desc.className = "archive-card-desc";
+        desc.textContent = item.description || FALLBACK.description;
+        body.appendChild(desc);
+
+        card.appendChild(thumb);
+        card.appendChild(body);
+
+        card.addEventListener("click", () => {
+          userSelectedArchive = true;
+          renderBroadcast(item, { isLive: false, autoplay: true });
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        return card;
+      }
+
+      function renderArchive(archive) {
+        const items = Array.isArray(archive) ? archive.slice(0, MAX_FILMSTRIP_ITEMS) : [];
+        const archiveKey = items.map((item) => item.videoId).join(",");
+
+        if (archiveKey === lastArchiveKey) {
+          updateActiveArchiveCard();
+          return;
+        }
+        lastArchiveKey = archiveKey;
+
+        el.filmstripTrack.innerHTML = "";
+
+        if (items.length === 0) {
+          el.filmstripTrack.classList.add("is-static");
+          el.reelToggle.classList.add("hidden");
+          el.archiveNote.textContent = "Watch full catalog on YouTube";
+          const empty = document.createElement("div");
+          empty.className = "archive-empty";
+          empty.textContent = "Recent archive episodes are temporarily unavailable. Visit @DaNangCommunityRadio on YouTube for the full broadcast catalog.";
+          el.filmstripTrack.appendChild(empty);
+          return;
+        }
+
+        el.filmstripTrack.classList.remove("is-static");
+        el.reelToggle.classList.remove("hidden");
+        el.archiveNote.textContent = `${items.length} recent ${items.length === 1 ? "session" : "sessions"}`;
+        el.filmstripTrack.style.setProperty("--reel-duration", `${Math.max(28, items.length * 5.5)}s`);
+
+        items.forEach((item) => {
+          el.filmstripTrack.appendChild(createArchiveCard(item, { isClone: false }));
+        });
+
+        // Duplicate once for seamless infinite filmstrip loop
+        items.forEach((item) => {
+          el.filmstripTrack.appendChild(createArchiveCard(item, { isClone: true }));
+        });
+      }
+
+      async function fetchStatus() {
+        for (const url of ENDPOINTS) {
+          try {
+            const res = await fetch(url, { cache: "no-store" });
+            if (!res.ok) continue;
+            const contentType = res.headers.get("content-type") || "";
+            if (!contentType.includes("application/json")) continue;
+            const data = await res.json();
+            if (data && typeof data.videoId === "string") {
+              return data;
+            }
+          } catch (_) {
+            // Try next endpoint
+          }
+        }
+        return null;
+      }
+
+      async function syncStatus({ isInitial = false } = {}) {
+        const data = await fetchStatus();
+        if (!data) {
+          if (isInitial) {
+            renderHeaderStatus(FALLBACK);
+            renderBroadcast(FALLBACK, { isLive: false });
+            renderArchive(FALLBACK.archive);
+          }
+          return;
+        }
+
+        latestStatus = data;
+        renderHeaderStatus(data);
+
+        if (!userSelectedArchive || isInitial) {
+          renderBroadcast(data, { isLive: Boolean(data.live), autoplay: false });
+        } else {
+          el.returnLiveBtn.classList.toggle("hidden", !data.live);
+        }
+
+        renderArchive(data.archive);
+      }
+
+      el.returnLiveBtn.addEventListener("click", () => {
+        userSelectedArchive = false;
+        renderBroadcast(latestStatus, { isLive: Boolean(latestStatus.live), autoplay: true });
+      });
+
+      el.reelToggle.addEventListener("click", () => {
+        isReelPaused = !isReelPaused;
+        el.filmstripViewport.classList.toggle("is-paused", isReelPaused);
+        el.reelToggle.setAttribute("aria-pressed", String(isReelPaused));
+        el.reelToggle.textContent = isReelPaused ? "Resume Reel" : "Pause Reel";
+      });
+
+      syncStatus({ isInitial: true });
+      setInterval(() => syncStatus({ isInitial: false }), POLL_INTERVAL_MS);
+    })();
+  </script>
+</body>
+</html>

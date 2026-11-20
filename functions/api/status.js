@@ -25,28 +25,30 @@ export async function onRequestGet() {
       redirect: "follow",
     });
 
-    const html = await liveRes.text();
-    const isLive = /"isLiveNow"\s*:\s*true/.test(html);
-    const canonicalMatch = html.match(
-      /<link rel="canonical" href="https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})"/
-    );
+    if (liveRes.ok) {
+      const html = await liveRes.text();
+      const isLive = /"isLiveNow"\s*:\s*true/.test(html);
+      const canonicalMatch = html.match(
+        /<link rel="canonical" href="https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})"/
+      );
 
-    if (isLive && canonicalMatch) {
-      const titleMatch = html.match(/<title>([^<]+)<\/title>/);
-      const rawTitle = titleMatch
-        ? titleMatch[1].replace(/\s*-\s*YouTube$/, "").trim()
-        : "DNCR Live";
+      if (isLive && canonicalMatch) {
+        const titleMatch = html.match(/<title>([^<]+)<\/title>/);
+        const rawTitle = titleMatch
+          ? titleMatch[1].replace(/\s*-\s*YouTube$/, "").trim()
+          : "DNCR Live";
 
-      liveStream = {
-        videoId: canonicalMatch[1],
-        title: decodeHtmlEntities(rawTitle),
-      };
+        liveStream = {
+          videoId: canonicalMatch[1],
+          title: decodeHtmlEntities(rawTitle),
+        };
+      }
     }
   } catch (_) {
     // Proceed to RSS feed even if live check fails
   }
 
-  // 2. Fetch the last 4 full-length uploads (excluding Shorts) from YouTube RSS
+  // 2. Fetch the last 10 full-length uploads (excluding Shorts) from YouTube RSS
   const archive = [];
   try {
     const rssRes = await fetch(
@@ -59,23 +61,28 @@ export async function onRequestGet() {
       const entries = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)];
 
       for (const match of entries) {
-        if (archive.length >= 4) break;
+        if (archive.length >= 10) break;
         const entry = match[1];
 
         // Skip YouTube Shorts
         if (entry.includes("/shorts/")) continue;
 
         const idMatch = entry.match(/<yt:videoId>([a-zA-Z0-9_-]{11})<\/yt:videoId>/);
-        const titleMatch = entry.match(/<title>([^<]+)<\/title>/);
+        const titleMatch = entry.match(/<title>([\s\S]*?)<\/title>/);
         const publishedMatch = entry.match(/<published>([^<]+)<\/published>/);
         const descMatch = entry.match(/<media:description>([\s\S]*?)<\/media:description>/);
 
         if (idMatch) {
+          const title = titleMatch ? decodeHtmlEntities(stripCdata(titleMatch[1])).trim() : FALLBACK_TITLE;
+          if (/#shorts\b/i.test(title)) continue;
+
           archive.push({
             videoId: idMatch[1],
-            title: titleMatch ? decodeHtmlEntities(titleMatch[1]) : FALLBACK_TITLE,
+            title,
             published: publishedMatch ? publishedMatch[1] : null,
-            description: formatDescription(descMatch ? decodeHtmlEntities(descMatch[1]) : ""),
+            description: formatDescription(
+              descMatch ? decodeHtmlEntities(stripCdata(descMatch[1])) : ""
+            ),
           });
         }
       }
@@ -118,9 +125,13 @@ export async function onRequestGet() {
   );
 }
 
+function stripCdata(str) {
+  return str.replace(/^<!\[CDATA\[([\s\S]*?)\]\]>$/, "$1");
+}
+
 function formatDescription(raw) {
   const firstBlock = raw
-    .split(/\n\s*\n/)[0]
+    .split(/\r?\n\s*\r?\n/)[0]
     .replace(/\s+/g, " ")
     .trim();
 
@@ -131,9 +142,13 @@ function formatDescription(raw) {
 
 function decodeHtmlEntities(str) {
   return str
-    .replace(/&amp;/g, "&")
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
+    .replace(/&nbsp;/g, " ")
+    .replace(/&apos;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'");
+    .replace(/&amp;/g, "&");
 }
